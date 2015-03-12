@@ -1,0 +1,57 @@
+      /*
+		Split string from semi-colons
+		Check for unbroken strings 
+		If string contains similar ending strings in the beginning, merge them. If not, state they are invalid. 
+		
+	  */
+	  
+	  static void Main()
+        {
+
+            string test = "O draconia;conian devil! Oh la;h lame sa;saint!  ";  // valid string
+            //string test = "XABCDX;CDEF";     //invalid string
+            //string test = "ZABCDER; DEFG";   //valid string
+            var split = test.Split(';').Select(p => p.Trim().ToLower()).ToList();
+            int i = 0;
+            int j = 1;
+
+            int start = 0;
+            while (j < split.Count())
+            {
+                string str1 = split[i];
+                string str2 = split[j];               
+                int count = 0;
+                for (int counter = 0; counter < str1.Length; counter++)
+                {
+                    if (str2[count] == str1[counter])
+                    {
+                        if (start == 0)
+                        {
+                            start = counter;
+                        }
+                        count++;
+                        // break;
+                    }
+                    else
+                    {
+                        start = 0;
+                    }
+                }                    
+              
+                if (start > 0)
+                {
+                    str1 = str1.Remove(start);
+                    str1 = str1 + str2;
+                    split[i] = str1;
+                }                    
+                              
+                j++;
+            }
+
+            if (start == 0)
+                Console.WriteLine("Invalid string " + split[i]);
+            else
+                Console.WriteLine(split[i]);
+
+            Console.ReadLine();
+        }
